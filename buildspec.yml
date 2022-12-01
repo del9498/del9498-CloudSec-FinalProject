@@ -7,7 +7,7 @@ phases:
     commands:
       - mvn verify sonar:sonar -Dsonar.projectKey=del9498 -Dsonar.organization=del9498 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARTOKEN 
       - sleep 5
-      - |-
+      - |- 
         quality_status=$(curl -s -u $SONARTOKEN: https://sonarcloud.io/api/qualitygates/project_status?projectKey=del9498 | jq -r '.projectStatus.status')
-        echo $quality_status;
-        if { $quality_status = "ERROR" } ; then exit 1;fi
+        echo "$quality_status"; 
+        if [ $quality_status = "ERROR" ] ; then exit 1;fi
