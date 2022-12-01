@@ -1,63 +1,41 @@
-# Damn Vulnerable Java Application
+# Java Reachability Playground for AWS DevSecOps Pipeline by ASecurityGuru
 
-## Quick Start
+This is an intentionally vulnerable application. It was purposely designed to demonstrate the capabilities of Snyk's Reachable
+Vulnerabilities feature and includes both a "Reachable" vulnerability (with a direct data flow to the vulnerable function) and a "Potentially Reachable" vulnerability (where only partial data exists for determining reachability).
 
-Install Docker and Docker Compose.
 
-```
-docker-compose up
-```
-Navigate to `http://localhost:8080`
+## Included vulnerabilities
+### [Arbitrary File Write via Archive Extraction](https://app.snyk.io/vuln/SNYK-JAVA-ORGND4J-72550)
+An exploit is using a vulnerability called [ZipSlip](https://snyk.io/research/zip-slip-vulnerability) - a critical vulnerability discovered 
+by Snyk, which typically results in remote command execution. As part of the exploit, a special zip archive is 
+crafted (attached as `malicious_file.zip`). When this file is extracted by a vulnerable function, it will create a file 
+called `good.txt` in the folder `unzipped`, but it will also create a file called `evil.txt` in the `/tmp/` folder. 
+This example is not dangerous, of course, but demonstrates the risk the vulnerability poses - imagine overwriting `.ssh/authorized_keys` or another sensitive file.
 
-To update image
+### [Deserialization of Untrusted Data](https://app.snyk.io/vuln/SNYK-JAVA-COMMONSCOLLECTIONS-472711)
+This vulnerability is not exploited. It demonstrates potentially vulnerable code, for which data about vulnerable functions
+is not available.
 
-```
-docker-compose build
-```
+## How to run the demo (Maven)
+1. Checkout this repository (`git checkout git@github.com:snyk/java-reachability-playground.git`)
+2. Install all the dependencies (`mvn install`)
+3. Compile the project (`mvn compile`)
+4. Run the main class (`mvn exec:java -Dexec.mainClass=Unzipper`); the application should throw an exception saying `Malicious file /tmp/evil.txt was created`.
+5. Run snyk command with Reachable Vulnerabilities flag (`snyk test --reachable` or `snyk monitor --reachable`); you should see the vulnerability `SNYK-JAVA-ORGND4J-72550` marked as reachable
+and the function call path to the vulnerability
 
-## Requirements
+## For Gradle 
+1. Make sure you build the artifacts with `./gradlew build`
+2. To see test results run `snyk test --file=build.gradle --reachable` or monitor: `snyk monitor --file=build.gradle --reachable`
+---
 
-* Java 1.7+
-* Maven 3.x
-* MySQL Server
+*Note: Once the java application is run, `malicious_file.zip` will be deleted by it. To run it again, run `git checkout .` prior
+to next java run.*
 
-## Configuration
+## Screenshots
 
-### Database
+### CLI
+![Snyk CLI Reachable Vulnerabilities](CLI_reachable.png)
 
-Create MySQL database and credentials and configure the same in:
-
-```
-./src/main/webapp/WEB-INF/config.properties
-```
-
-### Schema Import
-
-Import the schema into MySQL database:
-
-```
-$ mysql -u USER -pPASSWORD dvja < ./db/schema.sql
-```
-
-## Build
-
-```
-$ mvn clean package
-```
-
-The deployable `war` file is generated in targets directory.
-
-## Run with Jetty
-
-```
-$ mvn jetty:run
-```
-
-This will start the `Jetty` server on port 8080.
-
-## Deploy in Tomcat Server
-
-* Build app
-* Copy targets/dvja.war to Tomcat webapps directory
-* To serve as root application, copy as `ROOT.war` to Tomcat webapps directory.
-
+### Snyk UI
+![Snyk UI Reachable Vulnerabilities](UI_reachable.png)
