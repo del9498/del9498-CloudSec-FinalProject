@@ -14,3 +14,9 @@ This is because the role created in step 2 does not have permissions to read fro
 
 Since the default Sonar Way quality gate only scans new lines of code, a new quality gate called DevSecOps is created to scan all lines of code and pass if code coverage is at least 75%
 ![Quality Gate](screenshots/new-quality-gate.JPG)
+
+A fresh build with the new permissions and quality gate now show a successful build, but a failing Sonar scan due to insufficient code coverage.
+![Quality Gate2](screenshots/quality-fail.JPG)
+
+So far, builds have required a manual trigger from the AWS CodeBuild dashboard. Automating the build process with AWS CodePipeline will eliminate this manual step via CloudWatch which will actually trigger the pipeline. The pipeline is configured to build the del9498-devsecops project in CodeCommit and hen pipeline creation is complete, it automatically kicks off a fresh build.
+![Pipeline](screenshots/pipeline.JPG)
