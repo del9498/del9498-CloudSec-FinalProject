@@ -36,5 +36,13 @@ The build process can produce a variety of artifacts: jars, wars, other executab
 ### 3. OWASP ZAP
 OWASP ZAP is a web application security scanner that can be run on live URLs. Since this very intentionally vulnerable code will not be deployed to an endpoint, https://endpoint.com will be used as an example of OWASP ZAP's capabilities. In this exercise, the build will be configured to run OWASP ZAP on https://endpoint.com and then save the results to the S3 bucket configured in the previous step.
 
-First, the buildspec.yml needs to be updated with the commands to run OWASP ZAP. The below downloads OWASP ZAP zip file, unzips, then runs a scan on https://endpoint.com. The results of this scan are then stored in the artifacts S3 bucket for viewing later:
+First, the buildspec.yml needs to be updated with the commands to run OWASP ZAP. The below downloads OWASP ZAP zip file, unzips, then runs a scan on https://endpoint.com. The results of this scan are then stored in the artifacts S3 bucket for viewing later.
 
+OWASP ZAP attack is successful:
+![ZAP](screenshots/build-attack.JPG)
+
+The scan report is found in codepipeline-us-east-1-632159620233 in html format:
+![artf](screenshots/build-artf.JPG)
+
+Downloading and opening the OWASP ZAP report shows detailed findings:
+![ZAP-HTML](screenshots/zap-report.JPG)
