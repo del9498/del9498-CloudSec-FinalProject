@@ -11,3 +11,6 @@ After moving the SonarCloud token to AWS Secrets Manager, the build now fails:
 
 This is because the role created in step 2 does not have permissions to read from the Secrets Manager. Back in IAM, the appropriate permission is added to codebuild-del9498-devsecops-service-role:
 ![Updates](screenshots/scrts-mgr-read-write.JPG)
+
+Since the default Sonar Way quality gate only scans new lines of code, a new quality gate called DevSecOps is created to scan all lines of code and pass if code coverage is at least 75%
+![Quality Gate](screenshots/new-quality-gate.JPG)
