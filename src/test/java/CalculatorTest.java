@@ -1,5 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import Calculator;
 
 public class CalculatorTest {
 
