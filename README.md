@@ -21,6 +21,7 @@ A new build project is created from the CodeBuild console called del9498-devseco
 ![CodeBuild](screenshots/codebuild.jpg)
 
 ## SAST 1: SonarCloud integration
+
 ### 1. Create a buildspec.yaml
 The buildspec.yaml orchestrates builds in CodeBuild projects. Any tool that is to be integrated into this DevSecOps pipeline will need to be configured in the buildspec.yaml.
 
@@ -90,7 +91,7 @@ Integrating Snyk is easy via the CodePipeline console by editing the existing De
 The build process can produce a variety of artifacts: jars, wars, other executable types, and in the case of this DevSecOps pipeline, SAST scan results. As preparation for next steps, the del9498-devsecops build is configured to store build artifacts in an S3 bucket:
 ![Artifacts](screenshots/s3.JPG)
 
-## DAST 1: OWASP ZAP
+## DAST: OWASP ZAP
 OWASP ZAP is a web application security scanner that can be run on live URLs. Since this very intentionally vulnerable code will not be deployed to an endpoint, https://endpoint.com will be used as an example of OWASP ZAP's capabilities. In this exercise, the build will be configured to run OWASP ZAP on https://endpoint.com and then save the results to the S3 bucket configured in the previous step.
 
 First, the buildspec.yml needs to be updated with the commands to run OWASP ZAP. The below downloads OWASP ZAP zip file, unzips, then runs a scan on https://endpoint.com. The results of this scan are then stored in the artifacts S3 bucket for viewing later.
