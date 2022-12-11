@@ -107,3 +107,5 @@ The scan report is found in codepipeline-us-east-1-632159620233 in html format:
 Downloading and opening the OWASP ZAP report shows detailed findings:
 
 ![ZAP-HTML](screenshots/zap-report.JPG)
+
+## Additional steps
