@@ -1,7 +1,8 @@
 import java.util.zip.ZipFile;
 import java.util.zip.ZipEntry;
 ⋮
-public void extract(ZipFile zip) {
+public class ZipTraversal {
+    public void extract(ZipFile zip) {
      ⋮
      String toDir = "/my/target/directory/";
      Enumeration entries = zip.entries();
@@ -15,4 +16,5 @@ public void extract(ZipFile zip) {
         IOUtils.copy(bis, bos);
 	
     }
+}
 }

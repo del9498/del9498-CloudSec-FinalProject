@@ -1,4 +1,4 @@
-class Utils
+public class SerializeToFile
 {
     // Function to serialize an object and write it to a file
 

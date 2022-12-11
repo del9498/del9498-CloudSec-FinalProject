@@ -1,5 +1,7 @@
 # AWS DevSecOps Pipeline
-For the final project in Cloud Security, I have built a DevSecOps CI pipeline in AWS. Deployment (CD) functionality has been omitted since the source code intentionally contains vulnerabilities and deploying obviously vulnerable code is too much risk for me!
+For the final project in Cloud Security, I have built a DevSecOps CI pipeline in AWS. DevSecOps is now considered a best practice in software development since it shifts security left in the SDLC and catches vulnerabilities early in the development process when fixing issues is cheapest and has the lowest impact on production systems. 
+
+Deployment (CD) functionality has been omitted since the source code intentionally contains vulnerabilities and deploying obviously vulnerable code is too much risk for me!
 
 ## Initial Setup in AWS
 ### 1. Create repository in CodeCommit
@@ -165,5 +167,5 @@ CodeGuru Reviewer is initialized to scan the del9498-devsecops repository in Cod
 
 # Conclusion
 
-This DevSecOps CI pipeline project showcases many of AWS' own security services as well as how easy it is to integrate 3rd party security tools like SonarCloud, Snyk and OWASP ZAP into the AWS ecosystem.
-Only a narrow breadth and shallow depth was touched upon in this DevSecOps implementation, so future work would be implementing proper IAM policies and more comprehensive EventBridge rules.
+This DevSecOps CI pipeline project showcases many of AWS' own security services as well as how easy it is to integrate 3rd party security tools like SonarCloud, Snyk and OWASP ZAP into the AWS ecosystem. Implementing a DevSecOps pipeline into an enterprise's SDLC ensures common security vulnerabilities are found early in the development process when remediation is the cheapest. While a DevSecOps pipelines do not guarantee 100% safe software, forgoing this important step in the development process is accepting the introduction and persistence of some of the most common exploits into an enterprise's software.
+Only a narrow breadth and shallow depth was touched upon in this DevSecOps implementation, so future work would be implementing proper IAM policies and more comprehensive EventBridge rules for vulnerability alerts and failed builds.
