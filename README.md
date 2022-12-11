@@ -96,6 +96,10 @@ OWASP ZAP is a web application security scanner that can be run on live URLs. Si
 
 First, the buildspec.yml needs to be updated with the commands to run OWASP ZAP. The below downloads OWASP ZAP zip file, unzips, then runs a scan on https://endpoint.com. The results of this scan are then stored in the artifacts S3 bucket for viewing later.
 
+To see this in action, a commit to CodeCommit initiates a successful pipeline run:
+
+![codepipeline](screenshots/codepipeline.JPG)
+
 OWASP ZAP attack is successful:
 
 ![ZAP](screenshots/build-attack.JPG)
@@ -107,6 +111,9 @@ The scan report is found in codepipeline-us-east-1-632159620233 in html format:
 Downloading and opening the OWASP ZAP report shows detailed findings:
 
 ![ZAP-HTML](screenshots/zap-report.JPG)
+
+
+
 
 ## AWS Security Services
 
@@ -121,7 +128,11 @@ A Config Console is started using default values and enabling ALL rules.
 
 ![awsconfig](screenshots/awsconfig.JPG)
 
-### 1. Guard Duty
+Once setup is complete, Security Hub provides a severity score against its security standards. It is clear this AWS account is NOT very secure.
+
+![securityhub](screenshots/securityhub.JPG)
+
+### 2. Guard Duty
 
 Guard Duty will read logs and detect unusual behavior.
 
@@ -141,17 +152,18 @@ This notification process requires us to setup an SNS topic and endpoint.
 Next, EventBridge must be setup for GuardDuty findings.
 1. Create a new rule 
 2. Update the Event Pattern to send a notification for findings with a severity from 1 - 10
-
-`
-{
-  "source": ["aws.guardduty"],
-  "detail-type": ["GuardDuty Finding"],
-  "detail": {
-    "severity": [1, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4, 4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5, 5.0, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6, 6.0, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7, 7.0, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9, 8, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 9.0, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 10.0]
-  }
-}
-`
-
 3. Use the GuardDutyEmailNotification topic from the previous step as the rule's target
 
 ![eventrule](screenshots/eventrule.JPG)
+
+### 3. CodeGuru Reviewer
+According to its start page, CodeGuru Reviewer will "code against best practices observed in popular open source code repositories and Amazon’s own code base". Once scanned, CodeGuru will also make recommendations.
+CodeGuru Reviewer is initialized to scan the del9498-devsecops repository in CodeCommit.
+
+![codeguru](screenshots/codeguru.JPG)
+
+
+# Conclusion
+
+This DevSecOps CI pipeline project showcases many of AWS' own security services as well as how easy it is to integrate 3rd party security tools like SonarCloud, Snyk and OWASP ZAP into the AWS ecosystem.
+Only a narrow breadth and shallow depth was touched upon in this DevSecOps implementation, so future work would be implementing proper IAM policies and more comprehensive EventBridge rules.
