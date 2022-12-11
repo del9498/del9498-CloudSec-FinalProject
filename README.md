@@ -108,4 +108,50 @@ Downloading and opening the OWASP ZAP report shows detailed findings:
 
 ![ZAP-HTML](screenshots/zap-report.JPG)
 
-## Additional steps
+## AWS Security Services
+
+Let's now add some other AWS Security Services to the developemnt pipeline.
+
+### 1. Security Hub
+
+According to the Security Hub start page, "AWS Security Hub provides a consolidated view of your security status in AWS. Automate security checks, manage security findings, and identify the highest priority security issues across your AWS environment". The service helps you set security standards across your AWS infrastructure.
+
+The prerequisite for using Security Hub is AWS Config Console in order to record in all resources and accounts where Security Hub will be implemented. 
+A Config Console is started using default values and enabling ALL rules.
+
+![awsconfig](screenshots/awsconfig.JPG)
+
+### 1. Guard Duty
+
+Guard Duty will read logs and detect unusual behavior.
+
+Guard Duty has detected the use of root credentials during the initial setup of this DevSecOps pipeline:
+
+![guardduty](screenshots/guardduty.JPG)
+
+When Guard Duty detects a new finding, I wish to automate notifications to my security engineer at del9498@nyu.edu so they may investigate and remediate any findings.
+
+This notification process requires us to setup an SNS topic and endpoint.
+1. A new SNS topic is created called GuardDutyEmailNotification
+2. Next, a new subscription is created which will email del9498@nyu.edu.
+3. The subscription is confirmed from del9498@nyu.edu account.
+
+![subscription](screenshots/subscription.JPG)
+
+Next, EventBridge must be setup for GuardDuty findings.
+1. Create a new rule 
+2. Update the Event Pattern to send a notification for findings with a severity from 4 - 10
+
+`
+{
+  "source": ["aws.guardduty"],
+  "detail-type": ["GuardDuty Finding"],
+  "detail": {
+    "severity": [4, 4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5, 5.0, 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 6, 6.0, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7, 7.0, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9, 8, 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 8.8, 8.9, 9.0, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 9.8, 9.9, 10.0]
+  }
+}
+`
+
+3. Use the GuardDutyEmailNotification topic from the previous step as the rule's target
+
+![eventrule](screenshots/eventrule.JPG)
