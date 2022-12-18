@@ -1,5 +1,9 @@
 # AWS DevSecOps Pipeline
-For the final project in Cloud Security, I have built a DevSecOps CI pipeline in AWS. DevSecOps is now considered a best practice in software development since it shifts security left in the SDLC and catches vulnerabilities early in the development process when fixing issues is cheapest and has the lowest impact on production systems. 
+For the final project in Cloud Security, I have built a DevSecOps CI pipeline in AWS. A growing trend in software development that introduces application, cloud, infrastructure and software supply chain security earlier in the SDLC. 
+“Shift Left” means security issues are caught early when they are the cheapest and easiest to fix.
+Also means security becomes a shared responsibility among development teams and security teams.
+
+DevSecOps is considered an industry best practice and as we will see in this demo, AWS really can not make it easier to implement.
 
 Deployment (CD) functionality has been omitted since the source code intentionally contains vulnerabilities and deploying obviously vulnerable code is too much risk for me!
 
